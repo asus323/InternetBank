@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InternetBank.Data;
-using InternetBank.Model;
+using InternetBank.Data.User;
+using InternetBank.Interfaces;
+using InternetBank.Model.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

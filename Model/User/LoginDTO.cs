@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace InternetBank.Model
+namespace InternetBank.Model.User
 {
     public class LogInDTO
     {

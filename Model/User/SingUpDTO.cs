@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using DNTPersianUtils.Core;
 
-namespace InternetBank.Data
+namespace InternetBank.Data.User
 {
     public class SingUpDTO{
         [Required,ShouldContainOnlyPersianLetters(ErrorMessage = "لطفا زبان کیبورد را به فارسی تغییر دهید")]

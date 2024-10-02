@@ -12,6 +12,7 @@ using InternetBank.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using InternetBank.Interfaces;
 namespace InternetBank
 {
     public class Startup
