@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using InternetBank.Data;
 using InternetBank.Data.User;
 using InternetBank.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 namespace InternetBank
 {
     public class Startup
@@ -27,7 +30,20 @@ namespace InternetBank
             services.AddIdentity<ApplicationUser,IdentityRole>()
                     .AddEntityFrameworkStores<InternetBankContext>()
                     .AddDefaultTokenProviders();
-
+            services.AddAuthentication  (options =>{
+                options.DefaultAuthenticateScheme =JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme =JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme =JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(opt=>{
+                opt.SaveToken = true;
+                opt.RequireHttpsMetadata = true;
+                opt.TokenValidationParameters= new TokenValidationParameters(){
+                    ValidateIssuer =true,
+                    ValidIssuer =Configuration["JWT:ValidIssuer"],
+                    ValidAudience =Configuration["JWT:ValidAudience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"])),
+                };
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>{c.SwaggerDoc("v1", new OpenApiInfo { Title = "Internetbank api", Version = "v0.1" });});
             services.AddTransient<IUserRepository,UserRepository>();
@@ -47,7 +63,7 @@ namespace InternetBank
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
             
             app.UseEndpoints(endpoints =>

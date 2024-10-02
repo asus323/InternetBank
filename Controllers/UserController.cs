@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InternetBank.Data;
+using InternetBank.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -27,6 +28,12 @@ namespace InternetBank.Controllers
             var result = await _userRepository.SingUp(singUpDTO); 
             if(result.Succeeded) return Ok();
             return BadRequest(result.Errors.Select(x=>x.Description));
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUser([FromBody] LogInDTO logInDTO ){
+            var result = await _userRepository.LogIn(logInDTO); 
+            if(string.IsNullOrEmpty(result)) return Unauthorized();
+            return Ok(result);
         }
     }
 }
